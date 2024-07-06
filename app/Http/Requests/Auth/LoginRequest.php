@@ -54,11 +54,11 @@ class LoginRequest extends FormRequest
 
         $user = User::where('email', $this->input('email'))->first();
         $user->generateCode();
-        // $user->notify(new TwoFactorCode());
+        $user->notify(new TwoFactorCode());
 
         $basic  = new \Vonage\Client\Credentials\Basic("94f840fa", "1bt2rcNg1zi4kLg0");
         $client = new \Vonage\Client($basic);
-        $message = $client->sms()->send(
+        $client->sms()->send(
             new \Vonage\SMS\Message\SMS("201063574479", 'Laravel Framework', 'Hello Mr.Fawzy, Your OTP Code is ' . $user->code)
         );
 
